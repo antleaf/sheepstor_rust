@@ -1,9 +1,19 @@
-pub mod server;
+mod server;
+mod cli;
+mod logging;
+mod website;
+mod utilities;
+mod git;
+mod website_registry;
+mod website_builders;
+mod errors;
+mod github_webhook;
+
 use crate::server::run_http_server;
 use clap::Parser;
-use sheepstor::cli::{Cli, Commands};
-use sheepstor::logging::configure_flexi_logger;
-use sheepstor::website_registry;
+use crate::cli::{Cli, Commands};
+use crate::logging::configure_flexi_logger;
+
 
 #[tokio::main]
 async fn main() {

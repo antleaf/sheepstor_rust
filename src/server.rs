@@ -3,7 +3,7 @@ use axum::{
     routing::{get, post},
     Router,
 };
-use sheepstor::github_webhook::{process_github_webhook, ApplicationState};
+use crate::github_webhook::{process_github_webhook, ApplicationState};
 
 pub fn create_router(registry: WebsiteRegistry) -> Router {
     let state = ApplicationState { registry };
