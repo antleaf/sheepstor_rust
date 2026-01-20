@@ -9,17 +9,6 @@ pub struct GitRepository {
 }
 
 impl GitRepository {
-    pub fn new(clone_id: String, branch: String, working_dir: String) -> GitRepository {
-        GitRepository {
-            clone_id,
-            branch,
-            working_dir,
-        }
-    }
-
-    pub fn branch_ref(&self) -> String {
-        format!("refs/heads/{}", self.branch)
-    }
 
     pub fn git_pull(&self) -> Result<(), Box<dyn std::error::Error>> {
         log::debug!("Pulling latest changes for repository {} at branch {}", self.clone_id, self.branch);

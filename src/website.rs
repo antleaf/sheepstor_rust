@@ -3,7 +3,6 @@ use crate::website_builders::{build_index, build_with_hugo, build_with_verbatim_
 use std::fs;
 use std::fs::create_dir_all;
 use std::os::unix::fs::symlink;
-use std::str::FromStr;
 use serde::{Deserialize};
 use strum_macros::EnumString;
 
@@ -28,18 +27,6 @@ pub struct Website {
 }
 
 impl Website {
-    pub fn new(id: String, cp: String, processor_root: String, github_webhook_secret_env_key: String, wr: String, index: bool, git_repo: GitRepository) -> Website {
-        let web_root = std::path::Path::new(&wr).join(&id);
-        Website {
-            id,
-            content_processor: ContentProcessor::from_str(cp.as_str()).unwrap_or(ContentProcessor::Unknown),
-            processor_root,
-            github_webhook_secret_env_key,
-            webroot: web_root.display().to_string(),
-            index,
-            git: git_repo,
-        }
-    }
 
     pub fn build(&self) -> Result<(), Box<dyn std::error::Error>> {
         create_dir_all(std::path::Path::new(&self.webroot).join("logs"))?;
