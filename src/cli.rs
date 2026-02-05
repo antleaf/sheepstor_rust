@@ -37,5 +37,11 @@ pub enum Commands {
         #[clap(long, short = 's')]
         sites: String,
     },
+    /// Help message for Push.
+    Push {
+        /// Site(s) to update
+        #[clap(long, short = 's')]
+        site: String,
+    },
 }
 

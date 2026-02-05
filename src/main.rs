@@ -60,6 +60,22 @@ async fn main() {
                 }
             }
         }
+        Commands::Push { site } => {
+            log::info!("Pushing site: {site}");
+            let website = registry.get_website_by_id(site);
+            match website {
+                Some(website) => {
+                    log::info!("Processing website: {}", website.id);
+                    match registry.push_website(website) {
+                        Ok(_) => log::info!("Website changes '{}' pushed successfully", website.id),
+                        Err(e) => log::error!("Failed to push changes to website '{}': {}", website.id, e),
+                    }
+                }
+                None => {
+                    log::warn!("Website '{site}' not found in registry");
+                }
+            }
+        }
     }
     log::info!("Process Completed");
 }

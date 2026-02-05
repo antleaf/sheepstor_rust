@@ -86,4 +86,11 @@ impl Website {
         log::debug!("Sources updated for website: {}", self.id);
         Ok(())
     }
+
+    pub fn push(&self) -> Result<(), Box<dyn std::error::Error>> {
+        log::debug!("Pushing changes to website: {}", self.id);
+        self.git.git_push()?;
+        log::debug!("Changes pushed to website: {}", self.id);
+        Ok(())
+    }
 }

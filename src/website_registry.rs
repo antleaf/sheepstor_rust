@@ -51,6 +51,12 @@ impl WebsiteRegistry {
         self.websites.iter().find(|w| w.id == id)
     }
 
+    pub fn push_website(&self, website: &Website) -> Result<(), Box<dyn std::error::Error>> {
+        log::debug!("Pushing website: {}...", website.id);
+        website.push()?;
+        Ok(())
+    }
+
     pub fn process_website(&self, website: &Website) -> Result<(), Box<dyn std::error::Error>> {
         log::debug!("Processing website: {}...", website.id);
         website.update_sources()?;

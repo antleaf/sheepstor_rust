@@ -10,6 +10,39 @@ pub struct GitRepository {
 
 impl GitRepository {
 
+    pub fn git_push(&self) -> Result<(), Box<dyn std::error::Error>> {
+        log::debug!("Pushing latest changes to repository {} at branch {}", self.clone_id, self.branch);
+        let mut output = std::process::Command::new("git")
+            .arg("-C")
+            .arg(&self.working_dir)
+            .arg("add")
+            .arg("-A")
+            .output()?;
+
+        if output.status.success() {
+            output = std::process::Command::new("git")
+                .arg("-C")
+                .arg(&self.working_dir)
+                .arg("commit")
+                .arg("-m \"Automated commit from Sheepstor application\"")
+                .output()?;
+            if output.status.success() {
+                output = std::process::Command::new("git")
+                    .arg("-C")
+                    .arg(&self.working_dir)
+                    .arg("push")
+                    .output()?;
+            }
+        }
+        if output.status.success() {
+            log::debug!("Repository pushed successfully");
+            Ok(())
+        } else {
+            let error_message = String::from_utf8_lossy(&output.stderr);
+            Err(Box::new(std::io::Error::other(error_message)))
+        }
+    }
+    
     pub fn git_pull(&self) -> Result<(), Box<dyn std::error::Error>> {
         log::debug!("Pulling latest changes for repository {} at branch {}", self.clone_id, self.branch);
         let output = std::process::Command::new("git")
