@@ -24,7 +24,8 @@ impl GitRepository {
                 .arg("-C")
                 .arg(&self.working_dir)
                 .arg("commit")
-                .arg("-m \"Automated commit from Sheepstor application\"")
+                .arg("-m")
+                .arg(" Automated commit from Sheepstor application")
                 .output()?;
             if output.status.success() {
                 output = std::process::Command::new("git")
@@ -32,7 +33,13 @@ impl GitRepository {
                     .arg(&self.working_dir)
                     .arg("push")
                     .output()?;
+            } else {
+                let error_message = String::from_utf8_lossy(&output.stderr);
+                log::error!("Git push failed at 'commit -m ' stage {}", error_message);
             }
+        } else {
+            let error_message = String::from_utf8_lossy(&output.stderr);
+            log::error!("Git push failed at 'add -A' stage {}", error_message);
         }
         if output.status.success() {
             log::debug!("Repository pushed successfully");
