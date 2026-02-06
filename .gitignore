@@ -6,3 +6,4 @@
 /.cargo/
 /config/config.yaml
 /.run/
+http_clients_requests/http-client.env.json

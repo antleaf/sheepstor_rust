@@ -49,6 +49,14 @@ pub async fn ingest_zip_file(State(state): State<ApplicationState>, headers: Hea
                                             match unpack_zipped_folder(&upload_zip_file_path, &target_content_folder) {
                                                 Ok(_) => {
                                                     log::debug!("Unpacking zip file: {} into folder: {}", upload_zip_file_path,target_content_folder);
+                                                    match website.push() {
+                                                        Ok(_) => {
+                                                            log::debug!("Successfully pushed content to git repository for website: {}", website.id);
+                                                        }
+                                                        Err(e) => {
+                                                            log::error!("Failed to push content to git repository for website: {} - {}", website.id, e);
+                                                            return (StatusCode::INTERNAL_SERVER_ERROR, "Failed to push content to git repository").into_response();
+                                                        }}
                                                 }
                                                 Err(_) => {return (StatusCode::INTERNAL_SERVER_ERROR, "Failed to save uploaded zip file").into_response();}
                                             }
