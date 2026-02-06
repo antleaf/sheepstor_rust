@@ -8,6 +8,7 @@ mod website_registry;
 mod website_builders;
 mod errors;
 mod github_webhook;
+mod ingest;
 
 use crate::server::run_http_server;
 use clap::Parser;

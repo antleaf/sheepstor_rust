@@ -1,0 +1,10 @@
+
+# curl --data-binary @/Users/paulwalk/_temp/throwing-muses-electric-ballroom-camden.zip 
+#    -H "Content-Type: application/zip" 
+#    -X POST http://localhost:3000/ingest/repo_for_testing_webhooks
+POST http://localhost:3000/ingest/repo_for_testing_webhooks
+Content-Type: application/zip
+
+< /Users/paulwalk/_temp/throwing-muses-electric-ballroom-camden.zip
+
+###

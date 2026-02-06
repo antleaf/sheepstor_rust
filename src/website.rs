@@ -20,6 +20,9 @@ pub struct Website {
     pub content_processor: ContentProcessor,
     pub processor_root: String,
     pub github_webhook_secret_env_key: String,
+    pub ingest_token_env_key: Option<String>,
+    #[serde(default)]
+    pub content_root: String,
     #[serde(default)]
     pub webroot: String,
     pub index: bool,

@@ -4,6 +4,7 @@ use axum::{
     Router,
 };
 use crate::github_webhook::{process_github_webhook, ApplicationState};
+use crate::ingest::ingest_zip_file;
 
 pub fn create_router(registry: WebsiteRegistry) -> Router {
     let state = ApplicationState { registry };
@@ -11,6 +12,7 @@ pub fn create_router(registry: WebsiteRegistry) -> Router {
         .route("/", get(|| async { "Sheepstor" }))
         .route("/health", get(|| async { "OK" }))
         .route("/update/{website_id}", post(process_github_webhook))
+        .route("/ingest/{website_id}", post(ingest_zip_file))
         .with_state(state)
 }
 
