@@ -9,6 +9,7 @@ mod website_builders;
 mod errors;
 mod github_webhook;
 mod ingest;
+mod trigger_update;
 
 use crate::server::run_http_server;
 use clap::Parser;
