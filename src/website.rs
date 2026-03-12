@@ -1,9 +1,9 @@
 use crate::git::GitRepository;
-use crate::website_builders::{build_index, build_with_hugo, build_with_verbatim_copy};
+use crate::website_builders::{build_index, build_with_hugo, build_with_verbatim_copy, pull_latest_from_obsidian_vault};
+use serde::Deserialize;
 use std::fs;
 use std::fs::create_dir_all;
 use std::os::unix::fs::symlink;
-use serde::{Deserialize};
 use strum_macros::EnumString;
 
 #[derive(Clone, EnumString, Debug, Deserialize)]
@@ -20,9 +20,11 @@ pub struct Website {
     pub content_processor: ContentProcessor,
     pub processor_root: String,
     pub github_webhook_secret_env_key: String,
-    pub ingest_token_env_key: Option<String>,
-    #[serde(default)]
-    pub content_root: String,
+    // pub ingest_token_env_key: Option<String>,
+    pub update_token_env_key: Option<String>,
+    pub obsidian_root: Option<String>,
+    // #[serde(default)]
+    // pub content_root: String,
     #[serde(default)]
     pub webroot: String,
     pub index: bool,
@@ -30,7 +32,6 @@ pub struct Website {
 }
 
 impl Website {
-
     pub fn build(&self) -> Result<(), Box<dyn std::error::Error>> {
         create_dir_all(std::path::Path::new(&self.webroot).join("logs"))?;
         let mut target_folder_for_build = std::path::Path::new(&self.webroot).join("public_1");
@@ -49,6 +50,10 @@ impl Website {
             fs::remove_dir_all(&target_folder_for_build)?;
         }
         create_dir_all(&target_folder_for_build)?;
+        
+        if let Some(obsidian_root) = &self.obsidian_root {
+            pull_latest_from_obsidian_vault(self, obsidian_root.clone())?;
+        }
 
         match self.content_processor {
             ContentProcessor::Hugo => {

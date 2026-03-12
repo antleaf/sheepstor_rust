@@ -10,7 +10,7 @@ pub async fn trigger_update(State(state): State<ApplicationState>, headers: Head
         Some(website) => {
             log::info!("Processing website: {}", website.id);
             let token: String;
-            let token_env_key = website.ingest_token_env_key.clone();
+            let token_env_key = website.update_token_env_key.clone();
             match token_env_key {
                 Some(env_key) => match get_secret_from_env(env_key) {
                     Ok(secret) => {

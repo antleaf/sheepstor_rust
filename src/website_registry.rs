@@ -6,7 +6,7 @@ use std::fs;
 pub struct WebsiteRegistry {
     pub source_root: String,
     pub docs_root: String,
-    pub tmp_folder: String,
+    // pub tmp_folder: String,
     pub websites: Vec<Website>,
 }
 

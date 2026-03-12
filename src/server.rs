@@ -4,7 +4,6 @@ use axum::{
     Router,
 };
 use crate::github_webhook::{process_github_webhook, ApplicationState};
-use crate::ingest::ingest_zip_file;
 use crate::trigger_update::trigger_update;
 
 pub fn create_router(registry: WebsiteRegistry) -> Router {
@@ -14,7 +13,7 @@ pub fn create_router(registry: WebsiteRegistry) -> Router {
         .route("/health", get(|| async { "OK" }))
         .route("/update/{website_id}", post(process_github_webhook))
         .route("/trigger_update/{website_id}", get(trigger_update))
-        .route("/ingest/{website_id}", post(ingest_zip_file))
+        // .route("/ingest/{website_id}", post(ingest_zip_file))
         .with_state(state)
 }
 

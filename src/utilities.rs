@@ -1,9 +1,9 @@
 use secrecy::SecretString;
 use std::env;
 use std::env::VarError;
-use chrono::offset::Utc;
-use chrono::DateTime;
-use std::time::SystemTime;
+// use chrono::offset::Utc;
+// use chrono::DateTime;
+// use std::time::SystemTime;
 
 pub fn get_secret_from_env(key: String) -> Result<SecretString, VarError> {
     match env::var(&key) {
@@ -15,17 +15,14 @@ pub fn get_secret_from_env(key: String) -> Result<SecretString, VarError> {
     }
 }
 
-pub fn unpack_zipped_folder(zip_path: &str, destination: &str) -> Result<(), Box<dyn std::error::Error>> {
-    let file = std::fs::File::open(zip_path)?;
-    let mut archive = zip::ZipArchive::new(file)?;
-    archive.extract(destination)?;
-    // let archive_file:PathBuf = zip_path.into();
-    // let destination_folder:PathBuf = destination.into();
-    // zip_extract(&archive_file, &destination_folder)?;
-    Ok(())
-}
-
-pub fn interpolate_content_folder_path(content_root: String) -> String {
-    let datetime: DateTime<Utc> = SystemTime::now().into();
-    content_root.replace("{YEAR}", datetime.format("%Y").to_string().as_str())
-}
+// pub fn unpack_zipped_folder(zip_path: &str, destination: &str) -> Result<(), Box<dyn std::error::Error>> {
+//     let file = std::fs::File::open(zip_path)?;
+//     let mut archive = zip::ZipArchive::new(file)?;
+//     archive.extract(destination)?;
+//     Ok(())
+// }
+// 
+// pub fn interpolate_content_folder_path(content_root: String) -> String {
+//     let datetime: DateTime<Utc> = SystemTime::now().into();
+//     content_root.replace("{YEAR}", datetime.format("%Y").to_string().as_str())
+// }

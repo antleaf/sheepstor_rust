@@ -55,3 +55,21 @@ fn copy_dir_all(src: impl AsRef<Path>, dst: impl AsRef<Path>) -> io::Result<()> 
     }
     Ok(())
 }
+
+pub fn pull_latest_from_obsidian_vault(website: &Website,root: String) -> Result<(), Box<dyn std::error::Error>> {
+    log::debug!(
+        "Pulling latest from vault: {} ",
+        root,
+    );
+    let obsidian_command_output = std::process::Command::new("ob sync")
+        .arg("--path")
+        .arg(root)
+        .output()?;
+    if obsidian_command_output.status.success() {
+        Ok(())
+    } else {
+        let error_message = String::from_utf8_lossy(&obsidian_command_output.stderr);
+        log::error!("Obsidian pull failed for website {}: {}", website.id, error_message);
+        Err(Box::new(std::io::Error::other(error_message)))
+    }
+}

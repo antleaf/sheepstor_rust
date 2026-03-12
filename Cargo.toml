@@ -1,6 +1,6 @@
 [package]
 name = "sheepstor"
-version = "0.2.4"
+version = "0.3.0"
 edition = "2024"
 
 [dependencies]
@@ -15,8 +15,5 @@ hex = "0.4.3"
 secrecy = "0.10.3"
 hmac = "0.12.1"
 sha2 = "0.10.9"
-strum = { version = "0.27", features = ["derive"] }
-strum_macros = "0.27.2"
-zip = "7.3.0"
-zip-extensions = "0.13.1"
-chrono = { version = "0.4.24"}
+strum = { version = "0.28.0", features = ["derive"] }
+strum_macros = "0.28.0"
