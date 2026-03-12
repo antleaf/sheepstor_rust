@@ -1,5 +1,5 @@
 use crate::git::GitRepository;
-use crate::website_builders::{build_index, build_with_hugo, build_with_verbatim_copy, pull_latest_from_obsidian_vault};
+use crate::website_builders::{build_index, build_with_hugo, build_with_verbatim_copy};
 use serde::Deserialize;
 use std::fs;
 use std::fs::create_dir_all;
@@ -22,7 +22,6 @@ pub struct Website {
     pub github_webhook_secret_env_key: String,
     // pub ingest_token_env_key: Option<String>,
     pub update_token_env_key: Option<String>,
-    pub obsidian_root: Option<String>,
     // #[serde(default)]
     // pub content_root: String,
     #[serde(default)]
@@ -50,10 +49,6 @@ impl Website {
             fs::remove_dir_all(&target_folder_for_build)?;
         }
         create_dir_all(&target_folder_for_build)?;
-        
-        if let Some(obsidian_root) = &self.obsidian_root {
-            pull_latest_from_obsidian_vault(self, obsidian_root.clone())?;
-        }
 
         match self.content_processor {
             ContentProcessor::Hugo => {
